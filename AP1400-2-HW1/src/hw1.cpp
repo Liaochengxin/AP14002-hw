@@ -13,26 +13,26 @@ Matrix ones(size_t n, size_t m){
 
 Matrix random(size_t n, size_t m, double min, double max){
   if (min > max){
-    throw invalid_argument("max must larger than min");
+    throw std::invalid_argument("max must larger than min");
   }
 
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_real_distribution<double> disrt(min, max);
+  std::uniform_real_distribution<double> dist(min, max);
 
-  Matrix mat(n, std::vector<double>(m));
+  Matrix result(n, std::vector<double>(m));
 
-  for (vector<double>& row:mat){
+  for (std::vector<double>& row:result){
     for (double& elem:row){
       elem = dist(gen);
     }
   }
-  return mat;
+  return result;
 }
 
 void show(const Matrix& matrix){
-  for (vector<double>& row:matrix){
-    for (double& elem:row){
+  for (auto& row:matrix){
+    for (auto& elem:row){
       std::cout << std::setprecision(3) << elem << "\t";
     }
     std::cout << std::endl;
@@ -63,7 +63,7 @@ Matrix Multiply(const Matrix& matrix, double c){
 Matrix Multiply(const Matrix& matrix1, const Matrix& matrix2){
 
   if(matrix1.empty() || matrix2.empty()){
-    throw logic_error("matrices with wrong dimensions cannot be multiplied");
+    throw std::logic_error("matrices with wrong dimensions cannot be multiplied");
   }
   size_t m1 = matrix1.size();
   size_t m2 = matrix2.size();
@@ -71,7 +71,7 @@ Matrix Multiply(const Matrix& matrix1, const Matrix& matrix2){
   size_t n2 = matrix2[0].size();
   if (n1 != m2)
   {
-      throw logic_error("matrices with wrong dimensions cannot be multiplied.");
+      throw std::logic_error("matrices with wrong dimensions cannot be multiplied.");
   }
   Matrix result = zeros(m1, n1);
 
@@ -117,14 +117,14 @@ Matrix sum(const Matrix& matrix1, const Matrix& matrix2){
 
   Matrix result = zeros(m1, n1);
   if (n1!=m1 || n2!=m2){
-    throw logic_error("sum matrices should be in same dimension");
+    throw std::logic_error("sum matrices should be in same dimension");
   }
 
   for (int i = 0; i < m1; i++)
   {
     for (int j = 0; j < n1; j++)
     {
-      result[i][j] = c + matrix[i][j];
+      result[i][j] = matrix1[i][j] + matrix2[i][j];
     }
   }
   return result;
@@ -179,7 +179,7 @@ double determinant(const Matrix& matrix){
   double result = 0;
 
   if (k != g){
-    throw logic_error("determinant require matirx be square");
+    throw std::logic_error("determinant require matrix be square");
   }
 
   if (k == 1){
@@ -191,27 +191,26 @@ double determinant(const Matrix& matrix){
   }
 
   for (int j = 0; j < k; ++j){
-      result += (j%2 == 0 ? 1 : -1) * Multiply(determinant(minor(matrix, 0, j)), matrix[0][j]);
+      result += (j%2 == 0 ? 1 : -1) * determinant(minor(matrix, 0, j)) * matrix[0][j];
     }
-  }
   return result;
-}
+  }
+
 
 Matrix inverse(const Matrix& matrix){
   if (matrix.empty()){
-    return 0;
+    return Matrix{};
   }
 
   size_t k = matrix.size();
   size_t g = matrix[0].size();
-  double result = 0;
 
   if (k != g){
-    throw logic_error("determinant require matirx be square");
+    throw std::logic_error("determinant require matrix be square");
   }
 
   Matrix result = zeros(k,g);
-  det = determinant(matrix);
+  double det = determinant(matrix);
   for (int i = 0; i < k; ++i){
     for (int j = 0; j < g; ++j){
       result[i][j] = determinant(minor(matrix, i, j))/det;
@@ -221,7 +220,7 @@ Matrix inverse(const Matrix& matrix){
 }
 
 
-Matrix concatenate(const Matrix& matrix1, const Matrix& matrix2, int axis=0) {
+Matrix concatenate(const Matrix& matrix1, const Matrix& matrix2, int axis) {
     Matrix result = matrix1;
     if (axis == 0) {
         result.insert(result.end(), matrix2.begin(), matrix2.end());
@@ -234,7 +233,7 @@ Matrix concatenate(const Matrix& matrix1, const Matrix& matrix2, int axis=0) {
 }
 
 Matrix ero_swap(const Matrix& matrix, size_t r1, size_t r2){
-  if (r1 >= matrix.size() || r2 >= matirx[0].size()){
+  if (r1 >= matrix.size() || r2 >= matrix[0].size()){
     throw std::out_of_range("Row indices out of bounds");
   }
   Matrix result = matrix;
@@ -247,7 +246,7 @@ Matrix ero_multiply(const Matrix& matrix, size_t r, double c){
   if (r >= matrix.size()){
     throw std::out_of_range("Row indices out of bounds");
   }
-  for (auto& elem:matrix[r]){
+  for (auto& elem:result[r]){
     elem *= c;
   }
   return result;
@@ -275,13 +274,13 @@ Matrix upper_triangular(const Matrix& matrix){
   size_t g = matrix[0].size();
 
   if (k != g){
-    throw logic_error("require matirx be square");
+    throw std::logic_error("require matrix be square");
   }
 
   Matrix result = matrix;
 
   for (int i = 0; i < k; ++i){
-    diagonal_elem = result[i][i];
+    double diagonal_elem = result[i][i];
     for (int j = i+1; j < k; ++j){
       double elem = result[i][j];
       result = ero_sum(result, i, -elem/diagonal_elem, j);

@@ -3,6 +3,9 @@
 
 #include <random>
 #include <vector>
+#include <stdexcept>
+#include <iostream>
+#include <iomanip>
 
 namespace algebra
 {
@@ -14,7 +17,7 @@ Matrix ones(size_t n, size_t m);
 
 Matrix random(size_t n, size_t m, double min, double max);
 
-void show(const Maxtrix& matrix);
+void show(const Matrix& matrix);
 
 Matrix Multiply(const Matrix& matrix, double c);
 

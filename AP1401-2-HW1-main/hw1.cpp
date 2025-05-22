@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 
-
+//This function help combine all input features
 double linear_combination(const std::vector<double>& inputs, 
                           const std::vector<double>& weights,
                           double bias){
@@ -27,6 +27,7 @@ double sigmoid(double z){
 }
 
 
+//Calculate the final score
 double neuron_output(const std::vector<double>& inputs,
                      const std::vector<double>& weights,
                      double bias){
@@ -34,6 +35,7 @@ double neuron_output(const std::vector<double>& inputs,
   return sigmoid(z);
 }
 
+//read the input data
 std::vector<std::shared_ptr<std::vector<double>>> read_csv(std::string filename){
   std::vector<std::shared_ptr<std::vector<double>>> data;
   std::ifstream file(filename);
@@ -68,6 +70,7 @@ std::vector<std::shared_ptr<std::vector<double>>> read_csv(std::string filename)
   return data;
 }
 
+//start to train the model and output with weight
 std::vector<double> train(std::vector<std::shared_ptr<std::vector<double>>> training_data, double learning_rate, int num_iter){
   if (training_data.empty()){
     throw std::invalid_argument("Training data cannot be empty");

@@ -40,7 +40,7 @@ void show(const Matrix& matrix){
 }
 
 //note const
-Matrix Multiply(const Matrix& matrix, double c){
+Matrix multiply(const Matrix& matrix, double c){
   if (matrix.empty()){
     return Matrix{};
   }
@@ -60,7 +60,12 @@ Matrix Multiply(const Matrix& matrix, double c){
   return result;
 }
 
-Matrix Multiply(const Matrix& matrix1, const Matrix& matrix2){
+Matrix multiply(const Matrix& matrix1, const Matrix& matrix2){
+
+  if (matrix1.empty() && matrix2.empty())
+  {
+      return Matrix{};
+  }
 
   if(matrix1.empty() || matrix2.empty()){
     throw std::logic_error("matrices with wrong dimensions cannot be multiplied");
@@ -73,12 +78,12 @@ Matrix Multiply(const Matrix& matrix1, const Matrix& matrix2){
   {
       throw std::logic_error("matrices with wrong dimensions cannot be multiplied.");
   }
-  Matrix result = zeros(m1, n1);
+  Matrix result = zeros(m1, n2);
 
   for (int k = 0; k < n1; k++){
-    for (int i = 0; i < n1; i++){
-      for (int j = 0; j < m2; j++){
-        result[i][j] = matrix1[i][k] * matrix2[k][j];
+    for (int i = 0; i < m1; i++){
+      for (int j = 0; j < n2; j++){
+        result[i][j] += matrix1[i][k] * matrix2[k][j];
      }
     }
   }

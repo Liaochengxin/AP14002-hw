@@ -1,5 +1,14 @@
-FROM gcc:11.2.0
+FROM gcc:12.2.0
 
+
+#RUN apt-get -qq update 
+#RUN apt-get -qq install --no-install-recommends openssh-server 
+#RUN apt-get -qq install --no-install-recommends sudo 
+#RUN apt-get -qq install --no-install-recommends cmake 
+#RUN apt-get -qq install --no-install-recommends rsync 
+#RUN apt-get -qq install --no-install-recommends libssl-dev 
+#RUN apt-get clean 
+#RUN rm -rf /var/lib/apt/lists/*
 
 RUN apt-get -qq update \
     && apt-get -qq install --no-install-recommends openssh-server \

@@ -146,14 +146,7 @@ size_t mine(){
   return 0;
 }
 
-double get_wallet(std::string id){
-  for (auto& [client, balance]:clients){
-    if (client->get_id == id){
-      return balance;
-    }
-    throw runtime_error("can't find this client in the list");
-  }
-}
+
 
 //// Function to extract the numeric value from a single transaction
 //double extract_value(const std::string& transaction) {

@@ -6,6 +6,8 @@
 #include "client.h"
 #include "crypto.h"
 
+class Server;
+
 class Client
 {
 public:

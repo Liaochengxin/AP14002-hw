@@ -1,7 +1,7 @@
 #ifndef SUB_INGREDIENTS_H
 #define SUB_INGREDIENTS_H
 
-#include "Ingredient.h"  // Assuming Ingredient base class exists
+#include "ingredient.h"  // Assuming Ingredient base class exists
 
 #define DEFINE_INGREDIENT(ClassName, Price, IngredientName) \
 class ClassName : public Ingredient { \

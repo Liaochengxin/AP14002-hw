@@ -6,13 +6,13 @@
 #include "sub_ingredients.h"
 #include "espresso_based.h"
 
-class cappuccino : public espressobased
-{
+class Cappuccino : public EspressoBased{
+
 public:
     Cappuccino();
     Cappuccino(const Cappuccino& cap);
 
-	  ~Cappuccino() override;
+	  ~Cappuccino();
     void operator=(const Cappuccino& cap);
 
     std::string get_name() override;

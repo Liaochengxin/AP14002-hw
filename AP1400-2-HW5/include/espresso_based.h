@@ -1,5 +1,7 @@
 #ifndef ESPRESSO_BASED_H
 #define ESPRESSO_BASED_H
+
+#include <vector>
 #include "ingredient.h"
 
 class EspressoBased
@@ -8,7 +10,6 @@ public:
     //
     virtual std::string get_name() = 0;
     virtual double price() = 0;
-
     virtual void brew() = 0;
 
     std::vector<Ingredient*>& get_ingredients() {return ingredients;};

@@ -4,16 +4,14 @@
 #include "ingredient.h"
 #include "sub_ingredients.h"
 
-Cappuccino::Cappuccino() : EspressoBased(cap){
+Cappuccino::Cappuccino() : EspressoBased(){
+  name = "Cappuccino" 
   ingredients.push_back(new Espresso(2));
   ingredients.push_back(new Milk(2));
   ingredients.push_back(new MilkFoam(1));
 }
 
-Cappuccino::Cappuccino(const Cappuccino& cap) : EspressoBased(cap){
-  for (const Ingredient& i : cap.side_items){
-    side.items.push_back(i->clone());
-  }
+Cappuccino::Cappuccino(const Cappuccino& cap) : EspressoBased(cap), side_items(cap.side_items){
 }
 
 Cappuccino::~Cappuccino()
@@ -23,7 +21,7 @@ Cappuccino::~Cappuccino()
     side_items.clear();
 }
 
-Cappuccino& Cappuccino::operator=(const Cappuccino& cap) {
+void Cappuccino::operator=(const Cappuccino& cap) {
     if (&cap != this) {
         // 1. Delete old objects
         for (auto* ptr : ingredients) {
